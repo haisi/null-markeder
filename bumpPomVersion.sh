@@ -49,4 +49,29 @@ if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
-./mvnw -B versions:set -DgenerateBackupPoms=false -DnewVersion="$newVersion"
+./setPomVersions.sh "$newVersion"
+
+commitMessage="build: prepare release $newVersion"
+
+if git diff --quiet -- '*pom.xml'; then
+    echo "No pom.xml changes detected. Nothing to commit."
+    exit 0
+fi
+
+echo
+echo "===== Diff of all pom.xml files ====="
+git diff -- '*pom.xml'
+echo "======================================"
+echo
+echo "Commit message will be:"
+echo "  $commitMessage"
+echo
+
+read -rp "Stage and commit these pom.xml changes? [y/N] " doCommit
+if [[ "$doCommit" =~ ^[Yy]$ ]]; then
+    git add -- '*pom.xml'
+    git commit -m "$commitMessage"
+    echo "Committed."
+else
+    echo "Skipped commit. Changes are left unstaged in the working tree."
+fi
