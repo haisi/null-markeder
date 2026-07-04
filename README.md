@@ -1,7 +1,6 @@
 # null-markeder
 
 [![CI](https://github.com/haisi/null-markeder/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/haisi/null-markeder/actions/workflows/ci.yml)
-[![Release](https://github.com/haisi/null-markeder/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/haisi/null-markeder/actions/workflows/release.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/li.selman/null-markeder.svg)](https://central.sonatype.com/artifact/li.selman/null-markeder)
 [![Javadoc](https://javadoc.io/badge2/li.selman/null-markeder/javadoc.svg)](https://javadoc.io/doc/li.selman/null-markeder)
 [![License](https://img.shields.io/github/license/haisi/null-markeder)](LICENSE)
@@ -70,8 +69,8 @@ Releases are published to Maven Central via [JReleaser](https://jreleaser.org). 
 JReleaser to sign and deploy to the [Central Portal](https://central.sonatype.com).
 
 ```shell
-git tag v1.0.0
-git push origin v1.0.0
+./bumpPomVersion.sh
+./release.sh
 ```
 
 ## Contributing
