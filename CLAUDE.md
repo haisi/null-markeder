@@ -62,6 +62,6 @@ Commit messages must follow [Conventional Commits v1.0.0](https://www.convention
   internals on JDK 16+. Without this file the build fails with an unhelpful error - don't remove it.
 - **Checkstyle's `IllegalImport` rule** blocks non-jspecify `@Nullable` imports (Spring's, JetBrains', etc.),
   steering toward `org.jspecify.annotations.Nullable` - fitting, given the library's purpose.
-- Java baseline is 17 (`maven.compiler.release`). Since this is a test-scope dependency, bumping it raises the
+- Java baseline is 25 (`maven.compiler.release`). Since this is a test-scope dependency, bumping it raises the
   minimum JDK for every consumer's build, not just this one - that tradeoff has been deliberately revisited
-  once already (was briefly 25, reverted for broader compatibility).
+  before (briefly dropped to 17 for broader compatibility, then reverted back to 25).
