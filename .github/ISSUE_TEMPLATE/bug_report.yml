@@ -30,6 +30,6 @@ body:
     id: java-version
     attributes:
       label: Java version
-      placeholder: "17"
+      placeholder: "25"
     validations:
       required: true

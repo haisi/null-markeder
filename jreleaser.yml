@@ -14,7 +14,7 @@ project:
   languages:
     java:
       groupId: li.selman
-      version: "17"
+      version: "25"
 
 release:
   github:
