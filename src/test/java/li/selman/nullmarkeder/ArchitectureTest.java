@@ -8,6 +8,7 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Stream;
 import org.jspecify.annotations.NullMarked;
 
 /**
@@ -22,7 +23,9 @@ class ArchitectureTest {
     @ArchTest
     void packagesShouldBeAnnotated(JavaClasses classes) throws IOException {
         var rootPackage = classes.getPackage(ROOT_PACKAGE);
-        List<String> violations = rootPackage.getSubpackagesInTree().stream()
+        // getSubpackagesInTree() only returns descendants - it excludes rootPackage itself, so it must
+        // be checked separately or a package with no subpackages (like this one) would never be checked.
+        List<String> violations = Stream.concat(Stream.of(rootPackage), rootPackage.getSubpackagesInTree().stream())
                 .filter(pkg -> !pkg.isAnnotatedWith(NullMarked.class))
                 .map(pkg -> pkg.getDescription() + " is not annotated with @" + NullMarked.class.getSimpleName())
                 .toList();

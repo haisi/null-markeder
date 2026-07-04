@@ -106,9 +106,10 @@ public final class PackageInfoGenerator {
             return pathStream
                     .filter(Files::isDirectory)
                     .map(path -> realRoot.relativize(path).toString())
-                    .filter(path -> !path.isEmpty())
-                    .map(path -> path.replace('/', '.'))
-                    .map(path -> basePackage + "." + path)
+                    // An empty relative path means `path` is realRoot itself - i.e. basePackage - which
+                    // must be included, not just its subpackages (see PackageInfoGeneratorTest for the
+                    // regression this covers: this method used to silently skip basePackage entirely).
+                    .map(relative -> relative.isEmpty() ? basePackage : basePackage + "." + relative.replace('/', '.'))
                     .sorted()
                     .collect(Collectors.toList());
         }

@@ -28,6 +28,19 @@ class PackageInfoGeneratorTest {
     }
 
     @Test
+    void generatesPackageInfoForBasePackageItselfWhenItHasNoSubpackages(@TempDir Path rootDir) throws IOException {
+        Path pkgDir = rootDir.resolve("com/example");
+        Files.createDirectories(pkgDir);
+
+        PackageInfoGenerator.updatePackageInfoFiles(rootDir.toString(), "com.example");
+
+        assertThat(Files.readString(pkgDir.resolve("package-info.java")))
+                .contains("@NullMarked")
+                .contains("package com.example;")
+                .contains("import org.jspecify.annotations.NullMarked;");
+    }
+
+    @Test
     void addsAnnotationToExistingPackageInfoMissingIt(@TempDir Path rootDir) throws IOException {
         Path pkgDir = rootDir.resolve("com/example/bar");
         Files.createDirectories(pkgDir);

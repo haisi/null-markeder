@@ -40,7 +40,9 @@ class ArchitectureTest {
     @ArchTest
     void packagesShouldBeAnnotated(JavaClasses classes) throws IOException {
         var rootPackage = classes.getPackage(ROOT_PACKAGE);
-        List<String> violations = rootPackage.getSubpackagesInTree().stream()
+        // getSubpackagesInTree() excludes rootPackage itself, so it must be checked separately or a
+        // package with no subpackages would never be checked.
+        List<String> violations = Stream.concat(Stream.of(rootPackage), rootPackage.getSubpackagesInTree().stream())
                 .filter(pkg -> !pkg.isAnnotatedWith(NullMarked.class))
                 .map(pkg -> pkg.getDescription() + " is not annotated with @" + NullMarked.class.getSimpleName())
                 .toList();
@@ -77,6 +79,7 @@ JReleaser to sign and deploy to the [Central Portal](https://central.sonatype.co
 
 ```shell
 ./bumpPomVersion.sh
+git push
 ./release.sh
 ```
 
