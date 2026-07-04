@@ -41,6 +41,12 @@ the Central Portal, and to create the GitHub Release with a generated changelog.
 `private.asc`, gitignored) and Central Portal credentials (`.env`, gitignored) - use it to debug release
 config changes without waiting on CI.
 
+## Commit conventions
+
+Commit messages must follow [Conventional Commits v1.0.0](https://www.conventionalcommits.org/en/v1.0.0/#specification)
+(`<type>[optional scope]: <description>`, e.g. `fix:`, `feat:`, `build:`, `docs:`, `chore:`; append `!` or a
+`BREAKING CHANGE:` footer for breaking changes).
+
 ## Build enforcement to know about
 
 - **JaCoCo coverage is enforced at 100% (line and branch)**, not just measured. `verify` fails below that.
