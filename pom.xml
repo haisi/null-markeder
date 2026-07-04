@@ -60,7 +60,7 @@
         <javaparser.version>3.26.4</javaparser.version>
         <jspecify.version>1.0.0</jspecify.version>
         <junit.version>6.1.1</junit.version>
-        <maven.compiler.release>25</maven.compiler.release>
+        <maven.compiler.release>17</maven.compiler.release>
         <nullaway.version>0.13.7</nullaway.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
