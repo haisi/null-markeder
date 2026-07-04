@@ -11,9 +11,10 @@ project:
     - Hasan Selman Kara
   license: Apache-2.0
   inceptionYear: "2026"
-  java:
-    groupId: li.selman
-    version: "17"
+  languages:
+    java:
+      groupId: li.selman
+      version: "17"
 
 release:
   github:
@@ -26,7 +27,8 @@ release:
 
 signing:
   active: ALWAYS
-  armored: true
+  pgp:
+    armored: true
 
 deploy:
   maven:
