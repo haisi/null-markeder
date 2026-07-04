@@ -14,7 +14,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,9 +27,9 @@ public final class PackageInfoGenerator {
 
     private static final String DEFAULT_ROOT_DIR = "src/main/java";
 
-    private static final Set<String> REQUIRED_ANNOTATIONS = Set.of("NullMarked");
+    private static final String REQUIRED_ANNOTATION = "NullMarked";
 
-    private static final Set<String> ANNOTATION_IMPORTS = Set.of("org.jspecify.annotations.NullMarked");
+    private static final String ANNOTATION_IMPORT = "org.jspecify.annotations.NullMarked";
 
     private PackageInfoGenerator() {}
 
@@ -61,11 +60,9 @@ public final class PackageInfoGenerator {
         CompilationUnit cu = result.get();
         @Var boolean modified = false;
 
-        for (String importName : ANNOTATION_IMPORTS) {
-            if (cu.getImports().stream().noneMatch(imp -> imp.getNameAsString().equals(importName))) {
-                cu.addImport(importName);
-                modified = true;
-            }
+        if (cu.getImports().stream().noneMatch(imp -> imp.getNameAsString().equals(ANNOTATION_IMPORT))) {
+            cu.addImport(ANNOTATION_IMPORT);
+            modified = true;
         }
 
         if (cu.getPackageDeclaration().isEmpty()) {
@@ -77,14 +74,11 @@ public final class PackageInfoGenerator {
         NodeList<AnnotationExpr> annotations =
                 cu.getPackageDeclaration().orElseThrow().getAnnotations();
 
-        Set<String> existingAnnotations =
-                annotations.stream().map(AnnotationExpr::getNameAsString).collect(Collectors.toSet());
-
-        for (String required : REQUIRED_ANNOTATIONS) {
-            if (!existingAnnotations.contains(required)) {
-                annotations.add(new MarkerAnnotationExpr(new Name(required)));
-                modified = true;
-            }
+        boolean alreadyAnnotated =
+                annotations.stream().anyMatch(a -> a.getNameAsString().equals(REQUIRED_ANNOTATION));
+        if (!alreadyAnnotated) {
+            annotations.add(new MarkerAnnotationExpr(new Name(REQUIRED_ANNOTATION)));
+            modified = true;
         }
 
         if (modified) {
