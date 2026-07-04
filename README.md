@@ -9,7 +9,7 @@
 A library and sample test to ensure that each package in your java project contains a `package-info.java` file
 **with** the jspecify `@NullMarked` annotation.
 
-[**Website**](https://haisi.github.io/null-markeder/)
+[**Website**](https://selman.li/null-markeder/)
 
 ## Usage
 
