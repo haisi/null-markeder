@@ -1,6 +1,7 @@
 # null-markeder
 
 [![CI](https://github.com/haisi/null-markeder/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/haisi/null-markeder/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](.github/workflows/ci.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/li.selman/null-markeder.svg)](https://central.sonatype.com/artifact/li.selman/null-markeder)
 [![Javadoc](https://javadoc.io/badge2/li.selman/null-markeder/javadoc.svg)](https://javadoc.io/doc/li.selman/null-markeder)
 [![License](https://img.shields.io/github/license/haisi/null-markeder)](LICENSE)
@@ -12,7 +13,9 @@ A library and sample test to ensure that each package in your java project conta
 
 ## Usage
 
-Add dependency for [latest release](https://github.com/haisi/null-markeder/releases)
+Add dependency
+
+[![Maven Central](https://img.shields.io/maven-central/v/li.selman/null-markeder.svg)](https://central.sonatype.com/artifact/li.selman/null-markeder)
 
 ```xml
 <dependency>
@@ -61,6 +64,9 @@ class ArchitectureTest {
 ```shell
 ./mvnw verify
 ```
+
+Test coverage is enforced at 100% (line and branch) via JaCoCo; `verify` fails if it drops below that. Run
+`open target/site/jacoco/index.html` after a build to see the report.
 
 ## Releasing
 
