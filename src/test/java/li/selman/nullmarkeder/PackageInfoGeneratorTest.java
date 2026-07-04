@@ -1,15 +1,14 @@
 package li.selman.nullmarkeder;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 class PackageInfoGeneratorTest {
 
@@ -55,7 +54,9 @@ class PackageInfoGeneratorTest {
         PackageInfoGenerator.updatePackageInfoFiles(rootDir.toString(), "com.example");
 
         String content = Files.readString(pkgDir.resolve("package-info.java"));
-        assertThat(content).containsOnlyOnce("@NullMarked").containsOnlyOnce("import org.jspecify.annotations.NullMarked;");
+        assertThat(content)
+                .containsOnlyOnce("@NullMarked")
+                .containsOnlyOnce("import org.jspecify.annotations.NullMarked;");
     }
 
     @Test
@@ -89,8 +90,7 @@ class PackageInfoGeneratorTest {
 
     @Test
     void mainDefaultsRootDirToSrcMainJava() {
-        assertThatThrownBy(() -> PackageInfoGenerator.main("does.not.exist"))
-                .isInstanceOf(NoSuchFileException.class);
+        assertThatThrownBy(() -> PackageInfoGenerator.main("does.not.exist")).isInstanceOf(NoSuchFileException.class);
     }
 
     @Test

@@ -68,6 +68,9 @@ class ArchitectureTest {
 Test coverage is enforced at 100% (line and branch) via JaCoCo; `verify` fails if it drops below that. Run
 `open target/site/jacoco/index.html` after a build to see the report.
 
+`verify` also runs Spotless (palantir-java-format + sorted `pom.xml`), Checkstyle, and Error Prone/NullAway via
+the compiler plugin. Run `./mvnw spotless:apply` to auto-format before committing.
+
 ## Releasing
 
 Releases are published to Maven Central via [JReleaser](https://jreleaser.org). Pushing a tag matching `v*`

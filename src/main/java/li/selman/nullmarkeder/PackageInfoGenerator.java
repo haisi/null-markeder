@@ -6,7 +6,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
 import com.github.javaparser.ast.expr.Name;
-
+import com.google.errorprone.annotations.Var;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -52,10 +52,11 @@ public final class PackageInfoGenerator {
 
         if (result.isPresent()) {
             CompilationUnit cu = result.get();
-            boolean modified = false;
+            @Var boolean modified = false;
 
             for (String importName : ANNOTATION_IMPORTS) {
-                if (cu.getImports().stream().noneMatch(imp -> imp.getNameAsString().equals(importName))) {
+                if (cu.getImports().stream()
+                        .noneMatch(imp -> imp.getNameAsString().equals(importName))) {
                     cu.addImport(importName);
                     modified = true;
                 }

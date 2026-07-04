@@ -1,15 +1,14 @@
 package li.selman.nullmarkeder;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
-import org.jspecify.annotations.NullMarked;
-
 import java.io.IOException;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Dogfoods this library on itself: every package in {@code li.selman.nullmarkeder} must contain a
