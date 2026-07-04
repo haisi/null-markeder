@@ -8,6 +8,7 @@ import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
 import com.github.javaparser.ast.expr.Name;
 import com.google.errorprone.annotations.Var;
 import java.io.IOException;
+import java.lang.System.Logger.Level;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,6 +23,8 @@ import java.util.stream.Stream;
  * with JSpecify's {@code @NullMarked} annotation.
  */
 public final class PackageInfoGenerator {
+
+    private static final System.Logger LOGGER = System.getLogger(PackageInfoGenerator.class.getName());
 
     private static final String DEFAULT_ROOT_DIR = "src/main/java";
 
@@ -51,7 +54,7 @@ public final class PackageInfoGenerator {
         Optional<CompilationUnit> result = parser.parse(content).getResult();
 
         if (result.isEmpty()) {
-            System.err.println("Skipping " + packageInfoPath + ": could not be parsed as valid Java source");
+            LOGGER.log(Level.WARNING, "Skipping {0}: could not be parsed as valid Java source", packageInfoPath);
             return;
         }
 
@@ -87,7 +90,7 @@ public final class PackageInfoGenerator {
         if (modified) {
             String updatedContent = cu.toString();
             Files.writeString(packageInfoPath, updatedContent);
-            System.out.println("Updated " + packageInfoPath);
+            LOGGER.log(Level.INFO, "Updated {0}", packageInfoPath);
         }
     }
 
@@ -98,7 +101,7 @@ public final class PackageInfoGenerator {
         content.append("import org.jspecify.annotations.NullMarked;\n");
 
         Files.writeString(packageInfoPath, content.toString());
-        System.out.println("Generated new package-info.java for " + packageName);
+        LOGGER.log(Level.INFO, "Generated new package-info.java for {0}", packageName);
     }
 
     private static List<String> findPackages(Path rootDir, String basePackage) throws IOException {
