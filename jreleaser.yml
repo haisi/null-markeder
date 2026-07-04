@@ -1,0 +1,39 @@
+project:
+  name: null-markeder
+  description: Ensure every package in a Java project has a package-info.java annotated with JSpecify's @NullMarked
+  longDescription: |
+    null-markeder provides a PackageInfoGenerator and a pattern for an ArchUnit test that ensures every
+    package in a Java project contains a package-info.java file annotated with JSpecify's @NullMarked
+    annotation, so the whole codebase is null-safe by default.
+  links:
+    homepage: https://github.com/haisi/null-markeder
+  authors:
+    - Hasan Selman Kara
+  license: Apache-2.0
+  inceptionYear: "2026"
+  java:
+    groupId: li.selman
+    version: "17"
+
+release:
+  github:
+    owner: haisi
+    name: null-markeder
+    overwrite: true
+    changelog:
+      formatted: ALWAYS
+      preset: conventional-commits
+
+signing:
+  active: ALWAYS
+  armored: true
+
+deploy:
+  maven:
+    mavenCentral:
+      sonatype:
+        active: ALWAYS
+        url: https://central.sonatype.com/api/v1/publisher
+        stagingRepositories:
+          - target/staging-deploy
+        applyMavenCentralRules: true
