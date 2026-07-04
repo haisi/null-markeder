@@ -50,42 +50,44 @@ public final class PackageInfoGenerator {
         String content = Files.readString(packageInfoPath);
         Optional<CompilationUnit> result = parser.parse(content).getResult();
 
-        if (result.isPresent()) {
-            CompilationUnit cu = result.get();
-            @Var boolean modified = false;
+        if (result.isEmpty()) {
+            System.err.println("Skipping " + packageInfoPath + ": could not be parsed as valid Java source");
+            return;
+        }
 
-            for (String importName : ANNOTATION_IMPORTS) {
-                if (cu.getImports().stream()
-                        .noneMatch(imp -> imp.getNameAsString().equals(importName))) {
-                    cu.addImport(importName);
-                    modified = true;
-                }
-            }
+        CompilationUnit cu = result.get();
+        @Var boolean modified = false;
 
-            if (cu.getPackageDeclaration().isEmpty()) {
-                // A package-info.java with no package declaration has nowhere to attach an
-                // annotation to; give it one matching its location so the fix below actually sticks.
-                cu.setPackageDeclaration(packageName);
+        for (String importName : ANNOTATION_IMPORTS) {
+            if (cu.getImports().stream().noneMatch(imp -> imp.getNameAsString().equals(importName))) {
+                cu.addImport(importName);
                 modified = true;
             }
-            NodeList<AnnotationExpr> annotations =
-                    cu.getPackageDeclaration().orElseThrow().getAnnotations();
+        }
 
-            Set<String> existingAnnotations =
-                    annotations.stream().map(AnnotationExpr::getNameAsString).collect(Collectors.toSet());
+        if (cu.getPackageDeclaration().isEmpty()) {
+            // A package-info.java with no package declaration has nowhere to attach an
+            // annotation to; give it one matching its location so the fix below actually sticks.
+            cu.setPackageDeclaration(packageName);
+            modified = true;
+        }
+        NodeList<AnnotationExpr> annotations =
+                cu.getPackageDeclaration().orElseThrow().getAnnotations();
 
-            for (String required : REQUIRED_ANNOTATIONS) {
-                if (!existingAnnotations.contains(required)) {
-                    annotations.add(new MarkerAnnotationExpr(new Name(required)));
-                    modified = true;
-                }
+        Set<String> existingAnnotations =
+                annotations.stream().map(AnnotationExpr::getNameAsString).collect(Collectors.toSet());
+
+        for (String required : REQUIRED_ANNOTATIONS) {
+            if (!existingAnnotations.contains(required)) {
+                annotations.add(new MarkerAnnotationExpr(new Name(required)));
+                modified = true;
             }
+        }
 
-            if (modified) {
-                String updatedContent = cu.toString();
-                Files.writeString(packageInfoPath, updatedContent);
-                System.out.println("Updated " + packageInfoPath);
-            }
+        if (modified) {
+            String updatedContent = cu.toString();
+            Files.writeString(packageInfoPath, updatedContent);
+            System.out.println("Updated " + packageInfoPath);
         }
     }
 
