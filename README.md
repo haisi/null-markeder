@@ -1,17 +1,23 @@
 # null-markeder
 
+[![CI](https://github.com/haisi/null-markeder/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/haisi/null-markeder/actions/workflows/ci.yml)
+[![Release](https://github.com/haisi/null-markeder/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/haisi/null-markeder/actions/workflows/release.yml)
+[![Maven Central](https://img.shields.io/maven-central/v/li.selman/null-markeder.svg)](https://central.sonatype.com/artifact/li.selman/null-markeder)
+[![Javadoc](https://javadoc.io/badge2/li.selman/null-markeder/javadoc.svg)](https://javadoc.io/doc/li.selman/null-markeder)
+[![License](https://img.shields.io/github/license/haisi/null-markeder)](LICENSE)
+
 A library and sample test to ensure that each package in your java project contains a `package-info.java` file
 **with** the jspecify `@NullMarked` annotation.
 
 ## Usage
 
-Add dependency
+Add dependency for [latest release](https://github.com/haisi/null-markeder/releases)
 
 ```xml
 <dependency>
     <groupId>li.selman</groupId>
     <artifactId>null-markeder</artifactId>
-    <version>1.0.0</version>
+    <version>VERSION</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -52,7 +58,7 @@ class ArchitectureTest {
 ## Building
 
 ```shell
-mvn verify
+./mvnw verify
 ```
 
 ## Releasing
@@ -65,5 +71,14 @@ JReleaser to sign and deploy to the [Central Portal](https://central.sonatype.co
 git tag v1.0.0
 git push origin v1.0.0
 ```
+
+## Contributing
+
+Bug reports, feature requests and pull requests are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). This
+project follows a [Code of Conduct](CODE_OF_CONDUCT.md); by participating you agree to abide by it.
+
+## License
+
+`null-markeder` is licensed under the [Apache License, Version 2.0](LICENSE).
 
 See `jreleaser.yml` for the deployment configuration.
