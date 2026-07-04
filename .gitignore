@@ -10,3 +10,6 @@ out/
 .project
 .settings/
 .claude/
+.env
+private.asc
+public.asc
