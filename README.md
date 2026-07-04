@@ -15,8 +15,6 @@ A library and sample test to ensure that each package in your java project conta
 
 Add dependency
 
-[![Maven Central](https://img.shields.io/maven-central/v/li.selman/null-markeder.svg)](https://central.sonatype.com/artifact/li.selman/null-markeder)
-
 ```xml
 <dependency>
     <groupId>li.selman</groupId>
