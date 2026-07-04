@@ -80,6 +80,8 @@ class PackageInfoGeneratorTest {
         PackageInfoGenerator.updatePackageInfoFiles(rootDir.toString(), "com.example");
 
         assertThat(Files.readString(pkgDir.resolve("package-info.java")))
+                .contains("package com.example.nopackage;")
+                .contains("@NullMarked")
                 .contains("import org.jspecify.annotations.NullMarked;");
     }
 

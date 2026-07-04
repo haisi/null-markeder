@@ -38,14 +38,14 @@ public final class PackageInfoGenerator {
             Path packageInfoPath = Paths.get(rootDir, packageName.replace('.', '/'), "package-info.java");
 
             if (Files.exists(packageInfoPath)) {
-                updateExistingPackageInfo(packageInfoPath);
+                updateExistingPackageInfo(packageInfoPath, packageName);
             } else {
                 generateNewPackageInfo(packageInfoPath, packageName);
             }
         }
     }
 
-    private static void updateExistingPackageInfo(Path packageInfoPath) throws IOException {
+    private static void updateExistingPackageInfo(Path packageInfoPath, String packageName) throws IOException {
         JavaParser parser = new JavaParser();
         String content = Files.readString(packageInfoPath);
         Optional<CompilationUnit> result = parser.parse(content).getResult();
@@ -62,12 +62,14 @@ public final class PackageInfoGenerator {
                 }
             }
 
-            NodeList<AnnotationExpr> annotations;
-            if (cu.getPackageDeclaration().isPresent()) {
-                annotations = cu.getPackageDeclaration().get().getAnnotations();
-            } else {
-                annotations = new NodeList<>();
+            if (cu.getPackageDeclaration().isEmpty()) {
+                // A package-info.java with no package declaration has nowhere to attach an
+                // annotation to; give it one matching its location so the fix below actually sticks.
+                cu.setPackageDeclaration(packageName);
+                modified = true;
             }
+            NodeList<AnnotationExpr> annotations =
+                    cu.getPackageDeclaration().orElseThrow().getAnnotations();
 
             Set<String> existingAnnotations =
                     annotations.stream().map(AnnotationExpr::getNameAsString).collect(Collectors.toSet());
