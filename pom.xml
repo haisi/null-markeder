@@ -164,6 +164,8 @@
                 <configuration>
                     <checkstyleRules>
                         <module name="Checker">
+                            <!-- Flags plain http:// URLs (should be https://) in every scanned file. -->
+                            <module name="io.spring.nohttp.checkstyle.check.NoHttpCheck"/>
                             <!-- We only enable rules that are not enforced by
                             Error Prone or automatically corrected through
                             application of google-java-format (GJF). -->
