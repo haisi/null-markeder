@@ -357,6 +357,30 @@
             </plugin>
 
             <plugin>
+                <!--
+                Renders the surefire-reports XML (already written by the `test` phase) as a browsable
+                HTML test report at target/site/tests/index.html, published to the website by
+                .github/workflows/pages.yml.
+                -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>3.5.2</version>
+                <executions>
+                    <execution>
+                        <id>generate-test-report</id>
+                        <goals>
+                            <goal>report-only</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/site/tests</outputDirectory>
+                            <outputName>index</outputName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.15</version>

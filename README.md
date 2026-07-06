@@ -1,7 +1,7 @@
 # null-markeder
 
 [![CI](https://github.com/haisi/null-markeder/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/haisi/null-markeder/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](.github/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/haisi/null-markeder/badge.svg?branch=main)](https://coveralls.io/github/haisi/null-markeder?branch=main)
 [![Maven Central](https://img.shields.io/maven-central/v/li.selman/null-markeder.svg)](https://central.sonatype.com/artifact/li.selman/null-markeder)
 [![Javadoc](https://javadoc.io/badge2/li.selman/null-markeder/javadoc.svg)](https://javadoc.io/doc/li.selman/null-markeder)
 [![License](https://img.shields.io/github/license/haisi/null-markeder)](LICENSE)
