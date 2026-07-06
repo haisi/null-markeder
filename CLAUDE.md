@@ -18,6 +18,7 @@ scope is meant to stay this narrow.
 
 ```shell
 ./mvnw verify                 # full build: compile, test, 100% coverage gate, format/style/nullness checks
+./mvnw verify -Dquick          # fast loop: compile + test only, skips every quality gate below
 ./mvnw spotless:apply          # auto-format Java (palantir-java-format) and sort pom.xml - run before committing
 ./mvnw test -Dtest=PackageInfoGeneratorTest#mainRequiresAtLeastOneArgument   # single test
 ```
@@ -25,6 +26,13 @@ scope is meant to stay this narrow.
 `verify` runs, in order: compile (Error Prone + NullAway), tests, JaCoCo report, package/javadoc/sources jars,
 Spotless check, Checkstyle check, JaCoCo coverage check. All of these gate the build - a green `verify` means
 all of them passed, not just tests.
+
+All plugins other than the compiler and Surefire (tests) live in the `qa` profile, which is active by
+default and only deactivates when the `quick` system property is set (`-Dquick`, any value). With `qa`
+inactive, Maven falls back to a bare `javac` compile via the default lifecycle bindings (still respecting
+`maven.compiler.release`) - no Error Prone/NullAway, no `-Werror`, no Spotless/Checkstyle, no JaCoCo, no
+javadoc/sources jars. Useful while hacking locally; don't rely on a `-Dquick` build for anything you intend
+to commit or release - always run a plain `./mvnw verify` before that.
 
 ### Releasing
 
