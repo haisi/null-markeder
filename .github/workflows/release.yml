@@ -51,3 +51,19 @@ jobs:
         with:
           name: jreleaser-logs
           path: out/jreleaser/**
+
+      - name: Trigger javadoc.io indexing
+        continue-on-error: true
+        run: |
+          version="${{ steps.version.outputs.version }}"
+          pom_url="https://repo1.maven.org/maven2/li/selman/null-markeder/${version}/null-markeder-${version}.pom"
+          for i in $(seq 1 30); do
+            if curl -sfL -o /dev/null "$pom_url"; then
+              echo "Artifact visible on Maven Central, requesting javadoc.io build"
+              curl -sL -o /dev/null "https://javadoc.io/doc/li.selman/null-markeder/${version}"
+              exit 0
+            fi
+            echo "Waiting for Maven Central sync... (attempt $i/30)"
+            sleep 60
+          done
+          echo "Timed out waiting for Maven Central sync; javadoc.io will need a manual nudge"
