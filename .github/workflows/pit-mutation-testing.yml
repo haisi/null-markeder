@@ -78,6 +78,16 @@ jobs:
             target/pit-reports/mutations.xml \
             target/pit-reports/badge.svg
 
+      - name: Upload mutation report as a build artifact
+        # Lets pages.yml carry this report forward into every regular push-triggered deploy in
+        # between nightly runs (see fetch-latest-pit-report.sh) - without this, an ordinary push
+        # would deploy a site with no knowledge of /pit/ and silently wipe out what this workflow
+        # just published, since both workflows deploy the *entire* site content each time.
+        uses: actions/upload-artifact@v4
+        with:
+          name: pit-report
+          path: target/pit-reports
+
       - name: Assemble site
         run: |
           rm -rf site
