@@ -53,6 +53,30 @@ class PackageInfoGeneratorTest {
     }
 
     @Test
+    void preservesExistingPackageInfoCommentsAndAnnotationsWhenAddingNullMarked(@TempDir Path rootDir)
+            throws IOException {
+        Path pkgDir = rootDir.resolve("com/example/documented");
+        Files.createDirectories(pkgDir);
+        String original = """
+                /** Documentation for this package. */
+                @Deprecated(since = "1.0")
+                package com.example.documented;
+
+                import java.lang.Deprecated;
+                """;
+        Files.writeString(pkgDir.resolve("package-info.java"), original);
+
+        PackageInfoGenerator.updatePackageInfoFiles(rootDir.toString(), "com.example");
+
+        assertThat(Files.readString(pkgDir.resolve("package-info.java")))
+                .contains("/** Documentation for this package. */")
+                .contains("@Deprecated(since = \"1.0\")")
+                .contains("import java.lang.Deprecated;")
+                .contains("@NullMarked")
+                .contains("import org.jspecify.annotations.NullMarked;");
+    }
+
+    @Test
     void isIdempotentForAlreadyAnnotatedPackage(@TempDir Path rootDir) throws IOException {
         Path pkgDir = rootDir.resolve("com/example/baz");
         Files.createDirectories(pkgDir);

@@ -6,6 +6,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
 import com.github.javaparser.ast.expr.Name;
+import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
 import com.google.errorprone.annotations.Var;
 import java.io.IOException;
 import java.lang.System.Logger.Level;
@@ -58,6 +59,7 @@ public final class PackageInfoGenerator {
         }
 
         CompilationUnit cu = result.get();
+        LexicalPreservingPrinter.setup(cu);
         @Var boolean modified = false;
 
         if (cu.getImports().stream().noneMatch(imp -> imp.getNameAsString().equals(ANNOTATION_IMPORT))) {
@@ -82,7 +84,7 @@ public final class PackageInfoGenerator {
         }
 
         if (modified) {
-            String updatedContent = cu.toString();
+            String updatedContent = LexicalPreservingPrinter.print(cu);
             Files.writeString(packageInfoPath, updatedContent);
             LOGGER.log(Level.INFO, "Updated {0}", packageInfoPath);
         }
