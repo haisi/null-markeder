@@ -58,7 +58,7 @@
         <error-prone.patch-args/>
 
         <javaparser.version>3.28.2</javaparser.version>
-        <jspecify.version>1.0.0</jspecify.version>
+        <jspecify.version>1.0.1</jspecify.version>
         <junit.version>6.1.2</junit.version>
         <maven.compiler.release>25</maven.compiler.release>
         <nullaway.version>0.13.8</nullaway.version>
